@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+all_figures/ 
+*.py[cod]
+*$py.class
+*.txt
+*$py.class
+*.npz
+
+
+    

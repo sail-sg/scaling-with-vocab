@@ -110,6 +110,6 @@ pip install -r requirements.txt
 
 3. **Multi-Node Training**
 
-    - 3.1 For multi-node training, we use the [Megatron framework](https://github.com/epfLLM/Megatron-LLM). In the directory ```multi-node-training/```, we provide the code snippet of Unigram-normalized language modeling loss.  We can quickly replace the original language modeling loss  with the unigram-normalized version by the replacement of  3 files, ```Megatron-LLM/finetune.py```, ```Megatron-LLM/megatron/model/gpt_model.py```
+    - 3.1 For multi-node training, we use the [Megatron framework](https://github.com/epfLLM/Megatron-LLM). In the directory [multi-node-training](multi-node-training/), we provide the code snippet of Unigram-normalized language modeling loss.  We can quickly replace the original language modeling loss  with the unigram-normalized version by the replacement of  3 files, ```Megatron-LLM/finetune.py```, ```Megatron-LLM/megatron/model/gpt_model.py```
     and  ```Megatron-LLM/megatron/core/tensor_parallel/cross_entropy.py```.
 

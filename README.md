@@ -45,5 +45,5 @@ Or we can directly predict the optimal vocabulary paramaeters and size by the fo
 python optimal_Nv_predict.py
 ```
 
-## Misc
-- ```fit_tokenization_func.py```: The file to fit the tokenization function that maps from training characters (H) to tokens (D). The fitting technique is robust to various tokenizers, for example, BPE tokenizer, unigram-based tokenizer, word-based tokenizer.
+## Full Experiments
+To reproduce the  full experiments of language modeling training, please see the [Experiments README](experiments/README.md) for details.

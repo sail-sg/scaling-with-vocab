@@ -11,24 +11,30 @@ pip install -r requirements.txt
      Take vocabulary size = 4096 as an example:
 
         
-        ```
+        
         cd preliminary
 
         python sample_data.py --sample_input_path slimpajama-train.jsonl
-        ```
+        
         
  
     - 1.2 Train the tokenizer on the corpus with a certain vocabulary size. We have provided the trained tokenziers in the directory ```trained_tokenizers/```.
     
-        ```python train_tokenizer.py --dataset_path slimpajama-train-sampled.jsonl --vocab_size 4096```
+        ```
+        python train_tokenizer.py --dataset_path slimpajama-train-sampled.jsonl --vocab_size 4096
+        ```
 
     - 1.3 Compute the frequency of each word in the corpus given the tokenizer, which is used for computing unigram-normalized loss. The computed frequency files are stored in pkl file.  The pkl file is a dictionary that records the  the frequency of each word in the tokenized corpus, given the tokenizer with vocabulary size V. We have provided these files in the directory ```token_lookup_probabilities/```.
 
-        ```python generate_lookup_probabilities.py --vocab_size 4096```
+        ```
+        python generate_lookup_probabilities.py --vocab_size 4096
+        ```
 
     - 1.4  Fit the tokenization function that maps from training characters (H) to tokens (D), used to data fitting after the experiments. The fitting technique is robust to various tokenizers, for example, BPE tokenizer, unigram-based tokenizer, word-based tokenizer.
 
-        ```python fit_tokenization_func.py```
+        ```
+        python fit_tokenization_func.py
+        ```
 
 2. **Single-Node Training**
     - 2.1 Pre-process the corpus from text to IDs, and the pre-processed files are stored in ```single-node-training/prepared_dataset/train``` and ```single-node-training/prepared_dataset/validation``` 
@@ -40,6 +46,7 @@ pip install -r requirements.txt
     - 2.2 Pre-training the model by ```scripts/run.sh'''. 
     Here we compare the difference between the compute of traditional perplexity (PPL) and the unigram-normalized perplexity (PPLu), where log(PPLu) is unigram-normalized language modeling loss.
         ```
+        # compute the traditional perplexity (PPL) 
         @torch.no_grad()
         def validate(fabric: L.Fabric, model: torch.nn.Module, val_dataloader: DataLoader, max_iter=None) -> torch.Tensor:
             fabric.print("Validating ppl ...")
@@ -67,6 +74,7 @@ pip install -r requirements.txt
             model.train()
             return out
 
+        # compute the unigram-normalized  perplexity (PPLu) 
         @torch.no_grad()
         def validate_pplu(fabric: L.Fabric, model: torch.nn.Module, val_dataloader: DataLoader, lookup_probabilities, max_iter=None) -> torch.Tensor:
             fabric.print("Validating pplu...")

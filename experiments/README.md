@@ -41,7 +41,7 @@ pip install -r requirements.txt
         python train_tokenizer.py --dataset_path ../slimpajama-train-sampled.jsonl --vocab_size 4096
         ```
 
-    - 1.3 Compute the frequency of each word in the corpus given the tokenizer, which is used for computing unigram-normalized loss. The computed frequency files are stored in json file.  The json file is a dictionary that records the  the frequency of each word in the tokenized corpus, given the tokenizer with vocabulary size V. We have provided these files in the directory ```token_lookup_probabilities/```.
+    - 1.3 Compute the frequency of each word in the corpus given the tokenizer, which is used for computing unigram-normalized loss. The computed frequency files are stored in json file.  The json file is a dictionary that records the  the frequency of each word in the tokenized corpus, given the tokenizer with vocabulary size V. We have provided these files in the directory ```token_lookup_probabilities_json/```.
 
         ```
         python generate_lookup_probabilities.py --vocab_size 4096

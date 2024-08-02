@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 all_figures/ 
+experiments/token_lookup_probabilities
 *.py[cod]
 *$py.class
 *.txt

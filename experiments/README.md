@@ -5,6 +5,23 @@ pip install -r requirements.txt
 
 ###  Steps to pre-train the model with different vocabulary sizes:
 1. **Preliminary**:
+    #### Files and Directories
+        - slimpajama-train.jsonl
+        - slimpajama-train-sampled.jsonl
+        - slimpajama-validation.jsonl
+        - light_train/
+            - lit_gpt/
+            - pretrain/
+            - scripts/
+            - prepared_dataset/
+        - megatron_train/
+        - preliminary/
+        - token_lookup_probabilities_json/
+        - trained_tokenizers/
+        - README.md
+        - requirements.txt
+
+
     - 1.1 Download the [slimpajama-627B dataset](https://huggingface.co/datasets/cerebras/SlimPajama-627B). After downloading the dataset, we merge the chunks into a single jsonl file for easy operation. We get two files, ```slimpajama-train.jsonl``` and ```slimpajama-validation.jsonl```. 
     
     Sample the traning set from the original slimpajama-627B in case the original slimpajama-627B  to too large to do experiments. Then we get the sampled traning set ```slimpajama-train-sampled.jsonl```.
@@ -14,17 +31,17 @@ pip install -r requirements.txt
         
         cd preliminary
 
-        python sample_data.py --sample_input_path slimpajama-train.jsonl
+        python sample_data.py --sample_input_path ../slimpajama-train.jsonl
         
         
  
-    - 1.2 Train the tokenizer on the corpus with a certain vocabulary size. We have provided the trained tokenziers in the directory ```trained_tokenizers/```.
+    - 1.2 Train the tokenizer on the corpus with a certain vocabulary size. We have provided the trained tokenziers in the [huggingface directory](https://huggingface.co/sail/scaling-with-vocab-trained_tokenizers).
     
         ```
-        python train_tokenizer.py --dataset_path slimpajama-train-sampled.jsonl --vocab_size 4096
+        python train_tokenizer.py --dataset_path ../slimpajama-train-sampled.jsonl --vocab_size 4096
         ```
 
-    - 1.3 Compute the frequency of each word in the corpus given the tokenizer, which is used for computing unigram-normalized loss. The computed frequency files are stored in pkl file.  The pkl file is a dictionary that records the  the frequency of each word in the tokenized corpus, given the tokenizer with vocabulary size V. We have provided these files in the directory ```token_lookup_probabilities/```.
+    - 1.3 Compute the frequency of each word in the corpus given the tokenizer, which is used for computing unigram-normalized loss. The computed frequency files are stored in json file.  The json file is a dictionary that records the  the frequency of each word in the tokenized corpus, given the tokenizer with vocabulary size V. We have provided these files in the directory ```token_lookup_probabilities/```.
 
         ```
         python generate_lookup_probabilities.py --vocab_size 4096
@@ -37,9 +54,9 @@ pip install -r requirements.txt
         ```
 
 2. **Single-Node Training**
-    - 2.1 Pre-process the corpus from text to IDs, and the pre-processed files are stored in ```single-node-training/prepared_dataset/train``` and ```single-node-training/prepared_dataset/validation``` 
+    - 2.1 Pre-process the corpus from text to IDs, and the pre-processed files are stored in ```light_train/prepared_dataset/train``` and ```light_train/prepared_dataset/validation``` 
         ```
-        cd single-node-training
+        cd light_train
 
         python scripts/prepare_data_parallel.py --vocab 4096```
 
@@ -110,6 +127,9 @@ pip install -r requirements.txt
 
 3. **Multi-Node Training**
 
-    - 3.1 For multi-node training, we use the [Megatron framework](https://github.com/epfLLM/Megatron-LLM). In the directory [multi-node-training](multi-node-training/), we provide the code snippet of Unigram-normalized language modeling loss.  We can quickly replace the original language modeling loss  with the unigram-normalized version by the replacement of  3 files, ```Megatron-LLM/finetune.py```, ```Megatron-LLM/megatron/model/gpt_model.py```
-    and  ```Megatron-LLM/megatron/core/tensor_parallel/cross_entropy.py```.
+    - 3.1 For multi-node training, we use the [Megatron framework](https://github.com/epfLLM/Megatron-LLM). In the directory [megatron_train](megatron_train/), we provide the code snippet of Unigram-normalized language modeling loss.  
+    
+    Since the Megatron framework involves model parrallism when computing the loss, we re-implemente the unigram-normalized language modeling loss when using Megatron.
+    We can quickly use the unigram-normalized loss by the replacement of  3 files, ```Megatron-LLM/finetune.py```, ```Megatron-LLM/megatron/model/gpt_model.py```
+    and  ```Megatron-LLM/megatron/core/tensor_parallel/cross_entropy.py``` in [Megatron framework](https://github.com/epfLLM/Megatron-LLM).
 

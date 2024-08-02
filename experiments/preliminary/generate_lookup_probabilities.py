@@ -10,7 +10,6 @@ and the directory path of the trained tokenzier.
 from transformers import  LlamaTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
 from collections import Counter
-import pickle
 import pdb
 import json
 from transformers import AutoTokenizer
@@ -59,14 +58,9 @@ def token_count(
     total_tokenid = sum(counter.values())
     tokenid_probabilities = {tokenid: count / total_tokenid for tokenid, count in counter.items()}
 
-    save_name = f'../token_lookup_probabilities/tokenid_probabilities_{vocab_size}.pkl'
-    with open(save_name, 'wb') as f:
-        pickle.dump(tokenid_probabilities, f)
-    
-    # test load
-    with open(save_name, 'rb') as f:
-        tokenid_probabilities = pickle.load(f)
-
+    save_name = f'../token_lookup_probabilities_json/tokenid_probabilities_{vocab_size}.json'
+    with open(save_name, 'w') as f:
+        json.dump(tokenid_probabilities, f, indent=4)
 
 
 if __name__ == "__main__":

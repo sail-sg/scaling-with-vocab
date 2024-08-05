@@ -47,3 +47,16 @@ python optimal_Nv_predict.py
 
 ## Full Experiments
 To reproduce the  full experiments of language modeling training, please see the [Experiments README](experiments/README.md) for details.
+
+## Citation
+
+If you use this work in your research, please cite
+
+```
+@article{tao2024scaling,
+  title={Scaling Laws with Vocabulary: Larger Models Deserve Larger Vocabularies},
+  author={Tao, Chaofan and Liu, Qian and Dou, Longxu and Muennighoff, Niklas and Wan, Zhongwei and Luo, Ping and Lin, Min and Wong, Ngai},
+  journal={arXiv preprint arXiv:2407.13623},
+  year={2024}
+}
+```

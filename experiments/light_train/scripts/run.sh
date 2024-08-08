@@ -7,7 +7,7 @@ save_step_interval=54800
 for vocab in '4096'
 train_data_dir=prepared_dataset/train/vocab_$vocab
 val_data_dir=prepared_dataset/validation/vocab_$vocab
-path_to_tokenid_probabilities=../token_lookup_probabilities_json/tokenid_probabilities_$vocab.pkl
+path_to_tokenid_probabilities=../token_lookup_probabilities_json/tokenid_probabilities_$vocab.json
 do
     model_name=tiny_LLaMA_335M-V$vocab
     lightning run model \

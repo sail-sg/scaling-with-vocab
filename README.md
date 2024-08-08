@@ -12,7 +12,6 @@ We investigate how vocabulary size impacts language model scaling laws by traini
 
 **Left:** The relationship between non-vocabulary and vocabulary parameters follows a power law (the scaling proportion $\gamma < 1$ ). Empirical results show that non-vocabulary parameters should scale slower than vocabulary parameters, with larger circles indicating higher loss values.  **Right:** Most existing LLMs have suboptimal vocabulary parameters due to vocabulary sizes, which are smaller than the expected optimal values given the non-vocabulary parameters. 
 
-
 ## Demo
 Our demo is available now at [scaling-with-vocab-demo](https://huggingface.co/spaces/sail/scaling-with-vocab-demo) to predict the optimal vocabulary size!
 

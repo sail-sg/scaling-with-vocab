@@ -1,10 +1,6 @@
 from scipy.optimize import fsolve
 import numpy as np
 from utils import Nnv_to_d
-import math
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-from adjustText import adjust_text
 
 def Nnvopt_to_flops(Nnv):
     '''Return the corresponding training-optimal FLOPs budget

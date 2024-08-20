@@ -111,13 +111,7 @@ print(f"MSE (good MSE near to 0): {best_mse}\n\
 best_gamma = best_mse_guess[0]
 print("best_gamma: ", best_gamma)
 
-# Make prediction for large models
 
-# first read the exp folder and find the optimal vocabulary size for the smallest model
-# then use the derivative-based approach to predict the optimal vocabulary size for the larger models
-ckpt_dir = Path('exp_data')
-flops_budget = 2.7e+17
-best_vocab, best_lossu = 0, 0
 
 def interpolate_loss(known_flops, known_losses, target_flops):
     """
@@ -143,13 +137,21 @@ def interpolate_loss(known_flops, known_losses, target_flops):
     interpolated_loss = interp_func(target_flops)
     return interpolated_loss
 
+# first read the exp folder and find the optimal vocabulary size for the smallest model
+# then use the derivative-based approach to predict the optimal vocabulary size for the larger models
+ckpt_dir = Path('exp_data')
+flops_budget = 2.7e+17
+best_vocab, best_lossu = 0, 0
+
 for exp in tqdm(sorted(ckpt_dir.glob(f'tiny_LLaMA_0000050M-*'))):
     step_cnt = 0
     num_ckpt_recode = len(list(exp.glob('*ckpt.txt')))
-    model_size_name = exp.name.split('-')[0].split('_')[-1].lstrip('0')
+    
+    expname = exp.name
+    model_size_name = expname.split('-')[0].split('_')[-1].lstrip('0')
     d = embed_dim_dict[model_size_name]
     N = model_size_dict[model_size_name]
-    V = float(exp.name.split('-')[1].split('_')[0][1:].replace('IsoFLOP',''))
+    V = float(expname.split('-')[1].split('_')[0][1:].replace('IsoFLOP',''))
 
     cur_flops, cur_lossu = [], []
     for idx,step_recode in enumerate(sorted(exp.glob('*ckpt.txt'))):

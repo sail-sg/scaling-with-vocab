@@ -43,6 +43,7 @@ def dl_dv(V, Nnv, d, F):
 
 
 df = pd.read_csv('exp_data.csv')
+
 V_data = df['vocab_size']
 d_data = df['embed_dim']
 H_data = df['num_characters']

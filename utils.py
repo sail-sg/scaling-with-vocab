@@ -3,10 +3,21 @@ import math
 from scipy.interpolate import griddata, interp1d
 
 
-# The max training tokens (D) used for each model family
+# The max training tokens (D) used for each model family. We use the model with a middle-size
+# vocabulary, 16384, to compute the total parameters when naming a file.
+# For example,  for the file named 'tiny_LLaMA_0000050M-V0004096IsoFLOP',
+# the non-vocabulary parameters is 50_000_000 - 2*16384*d, where d is the embedding dim.
+# and the vocabulary used is 4096.
 max_D_list = [1.2*10**9,3.0*10**9, 5.3*10**9, 11.7*10**9, 27.7*10**9, 54.8*10**9]
-
-
+max_D_dict = {'50M':1.2*10**9, '110M':3.0*10**9, '176M':5.3*10**9, '335M':11.7*10**9,
+    '682M':27.7*10**9, '1197M':54.8*10**9, '2975M':165.5*10**9}
+embed_dim_dict = {'50M':512, '110M':768, '176M':768, '335M':1024, 
+    '682M':1536,'1197M':2048, '2975M':3200}
+model_size_dict = {'50M':50*10**6, '110M':110*10**6, '176M':176*10**6, '335M':350*10**6,
+    '682M':682*10**6,  '1197M':1197*10**6,'2975M':2975*10**6}
+steps_for_1epoch_dict =  {'50M':1200, '110M':3000, '176M':5300, '335M':11700, 
+    '682M':27700,'1197M':54800,'2975M':165500
+    }
 
 def D_to_H(D,V=16384):
     logv = np.log(np.minimum(V, 200_000))

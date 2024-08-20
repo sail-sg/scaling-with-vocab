@@ -31,46 +31,6 @@ from utils import (D_to_H, relative_mse, Nnv_to_d, func_flops,
 np.random.seed(42)  
 a,b,c = 0.00639222, -0.15811069, 1.20470122
 
-# # collect the exp data.
-# ignore_folder = [
-#         # 'V0004096', # if we need to omit partial data.
-#     ]
-# for exp in tqdm(sorted(ckpt_dir.glob(f'tiny_LLaMA_*IsoFLOP'))):
-#     step_cnt = 0
-#     num_ckpt_recode = len(list(exp.glob('*ckpt.txt')))
-#     if any([i in exp.name for i in ignore_folder]):
-#         continue
-#     cur_flops, cur_loglossu,cur_lossu = [],[],[]
-#     for idx,step_recode in enumerate(sorted(exp.glob('*ckpt.txt'))):
-#         if not step_recode.is_file():
-#             continue
-#         step = float(step_recode.name.split('-')[1])
-
-#         step_cnt += 1
-#         model_size_name = exp.name.split('-')[0].split('_')[-1].lstrip('0')
-#         d = embed_dim_dict[model_size_name]
-#         N = model_size_dict[model_size_name]
-#         V = float(exp.name.split('-')[1].split('_')[0][1:].replace('IsoFLOP',''))
-
-#         steps_for_1epoch = steps_for_1epoch_dict[model_size_name]
-#         D = max_D_dict[model_size_name] * (step/steps_for_1epoch) 
-#         H = D_to_H(D,V)
-#         Nnv = N - 2*16384*d
-#         flops = 6*(Nnv + V*d)*D
-
-#         points.append([Nnv, H, V])
-#         with open(step_recode) as f:
-#             loss_u = math.log(float(f.read()))
-#         if all_samples is None:
-#             all_samples = np.expand_dims(np.array([V, d, H, Nnv, flops, loss_u]), axis=0)
-#         else:
-#             all_samples = np.concatenate([all_samples, np.expand_dims(np.array([V, d, H, Nnv, flops,  loss_u]), axis=0)], axis=0)
-    
-#         cur_flops.append(flops)
-#         cur_lossu.append(loss_u)
-                      
-#     print(exp.name, step_cnt)
-
 df = pd.read_csv('exp_data.csv')
 V_data = df['vocab_size']
 d_data = df['embed_dim']
